@@ -1,0 +1,77 @@
+#!/bin/bash
+
+#shebang that specifices that this should be ran as a bash script.
+
+#using the wget to download the specified file from the internet, -O specifies the file name of the info retrieved.
+
+wget -O municipalities.html https://en.wikipedia.org/wiki/List_of_municipalities_of_Norway
+
+#using echo to output HTML and embedded css styling to add a personal touch.
+
+echo "<html>
+<head>
+    <title>Municipalities of Norway</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .header {
+            background-color: #f2f2f2;
+            border-radius: 15px;
+            text-align: center;
+            padding: 20px;
+            margin: 20px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        }
+        .content {
+            flex: 1;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        tr:nth-child(even) {background-color: #f9f9f9;}
+        tr:hover {background-color: #f1f1f1;}
+        .footer {
+            background-color: #f2f2f2;
+            color: black;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class='header'>
+        <h1>Municipalities of Norway</h1>
+        <p>This project was created as a part of the final assignment in IDG1100 made by Even Sondrup Bentzen from BWU. This is hosted on an apache2 server from my raspberry pi and the table below is taken from <a href='https://en.wikipedia.org/wiki/List_of_municipalities_of_Norway'>Wikipedia</a>.</p>
+    </div>
+    <div class='content'>" > my_webpage.html
+
+#using the sed editor to extracting specific information from the original file between point A and B.
+#-n specifies that the printing of the info between A and B should be specific to only the info between them.
+#>> takes whatever content specified in the sed and adds it to the file on the other side of the signs.
+
+sed -n '/<table class="sortable wikitable">/,/<\/td><\/tr><\/tbody><\/table>/p' municipalities.html >> my_webpage.html
+
+#starting new echo so the sed doesnt get rendered as text isntead of a command.
+
+echo "    </div>
+    <div class='footer'>
+        Made by Even Sondrup Bentzen as a part of IDG1100
+    </div>
+</body>
+</html>" >> my_webpage.html
